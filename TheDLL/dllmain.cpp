@@ -15,6 +15,26 @@ extern "C"
         cppFunc();
     }
 
+    __declspec(dllexport) void runx64(void)
+    {
+        __asm
+        {
+            push 033h;
+            push x64code;
+            retf
+                x64code :
+            nop;
+            nop;
+            nop;
+            //Now Back to x86 Mode;
+            push x86BackPosition; // Here will push 8 bytes
+            mov [esp + 4], 023h;
+            retf
+                x86BackPosition :
+            // 233, below is C code
+        }
+        MessageBox(NULL, L"Backed to x86", L"233", SW_NORMAL);
+    }
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,

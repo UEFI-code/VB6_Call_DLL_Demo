@@ -26,11 +26,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "dllmain.cpp",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
+              "RelativeDocumentMoniker": "dllmain.cpp",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
+              "RelativeToolTip": "dllmain.cpp",
+              "ViewState": "AQIAAA0AAAAgBgAAAIAhwCQAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-08-03T08:35:42.55Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -67,19 +80,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-08-03T08:42:22.716Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "dllmain.cpp",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
-              "RelativeDocumentMoniker": "dllmain.cpp",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
-              "RelativeToolTip": "dllmain.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-08-03T08:35:42.55Z",
-              "EditorCaption": ""
             }
           ]
         }
