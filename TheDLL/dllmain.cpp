@@ -32,9 +32,9 @@ extern "C"
         __asm
         {
             // Backup Useful Pointer, for below x64 function use
-            lea eax, [krnlbaseDllName];
-            push eax;
             lea eax, [KrnlBase_BaseAddr];
+            push eax;
+            lea eax, [krnlbaseDllName];
             push eax;
 
             // Now prepare enter x64!
@@ -65,23 +65,23 @@ extern "C"
             x64_mov_rax_prefix;
             EMIT(0xF0) EMIT(0x46) EMIT(0xED) EMIT(0xEF) EMIT(0xFC) EMIT(0x7F) EMIT(0) EMIT(0); // Set RAX to LdrLoadDll
 
-            x64_xor_rcx_rcx; // Set First Param to NULL
+            x64_xor_rcx_rcx; // Set 1st Param to NULL
 
-            x64_xor_rdx_rdx; // Set Sec Param to NULL
-
-            x64_xor_rbx_rbx; // Clear RBX
+            x64_xor_rdx_rdx; // Set 2st Param to NULL
 
             add esp, 8; // manully pop 8 bytes to skip the return addr for below purpose
 
-            // lea ebx, [krnlbaseDllName]; Unfortunatly, this opcode is not same in x64
-            mov ebx, [esp]; // ebx = KrnlBase_BaseAddr
-            x64_mov_r9_rbx; // Set Forth Param to &KrnlBase_BaseAddr
-            add esp, 4; // manully pop 4 bytes, cause x64 Not have pop ebx
-            
-            // lea ebx, [KrnlBase_BaseAddr]; Unfortunatly, this opcode is not same in x64
-            mov ebx, [esp]; // ebx = krnlbaseDllName
-            x64_mov_r8_rbx; // Set Third Param to &krnlbaseDllName
+            x64_xor_rbx_rbx; // Clear RBX
 
+            // lea ebx, [krnlbaseDllName]; Unfortunatly, this opcode is not same in x64
+            mov ebx, [esp]; // ebx = &krnlbaseDllName
+            x64_mov_r8_rbx; // Set 3rd Param to &krnlbaseDllName
+            add esp, 4; // manully pop 4 bytes, cause x64 Not have pop ebx
+
+            // lea ebx, [KrnlBase_BaseAddr]; Unfortunatly, this opcode is not same in x64
+            mov ebx, [esp]; // ebx = &KrnlBase_BaseAddr
+            x64_mov_r9_rbx; // Set 4th Param to &KrnlBase_BaseAddr
+            
             sub esp, 12; // restore stack
 
             x64_call_rax;
