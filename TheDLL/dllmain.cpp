@@ -1,6 +1,16 @@
 ﻿// dllmain.cpp : DLL アプリケーションのエントリ ポイントを定義します。
 #include "pch.h"
 
+#include "mytypes.h"
+
+#include "my_opcode_x64.h"
+
+UNICODE_STRING krnlbaseDllName = {28, 30, (wchar_t *)L"kernelbase.dll"};
+UNICODE_STRING krnl32DllName = { 24, 26, (wchar_t*)L"kernel32.dll" };
+
+PVOID KrnlBase_BaseAddr = 0;
+PVOID Krnl32_BaseAddr = 0;
+
 void cppFunc(void)
 {
     MessageBox(NULL, L"Hello World from TheDLL C++ Function", L"Hi", SW_NORMAL);
@@ -15,6 +25,8 @@ extern "C"
         cppFunc();
     }
 
+    void Load_x64_Sys_Dll(void);
+
     __declspec(dllexport) void runx64(void)
     {
         __asm
@@ -25,6 +37,8 @@ extern "C"
                 x64code :
             nop;
             nop;
+            call Load_x64_Sys_Dll;
+            nop;
             nop;
             //Now Back to x86 Mode;
             push x86BackPosition; // Here will push 8 bytes
@@ -34,6 +48,35 @@ extern "C"
             // 233, below is C code
         }
         MessageBox(NULL, L"Backed to x86", L"233", SW_NORMAL);
+    }
+
+    __declspec(naked) void Load_x64_Sys_Dll(void)
+    {
+        __asm
+        {
+            x64_mov_rax_prefix;
+            EMIT(0xF0) EMIT(0x46) EMIT(0xED) EMIT(0xEF) EMIT(0xFC) EMIT(0x7F) EMIT(0) EMIT(0); // Set RAX to LdrLoadDll
+            x64_mov_rcx_prefix;
+            EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0); // Set First Param to NULL
+            x64_mov_rdx_prefix;
+            EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0); // Set Sec Param to NULL
+
+            x64_xor_rbx_rbx; // Set RBX to zero
+
+            lea ebx, [krnlbaseDllName];
+            x64_mov_r8_rbx; // Set Third Param to &krnlbaseDllName
+
+            lea ebx, [Krnl32_BaseAddr];
+            x64_mov_r9_rbx; // Set Forth Param to &Krnl32_BaseAddr
+
+            x64_call_rax;
+            
+            nop;
+            nop;
+            nop;
+            ret;
+        }
+
     }
 }
 
@@ -54,4 +97,3 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     }
     return TRUE;
 }
-

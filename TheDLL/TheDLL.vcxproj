@@ -141,6 +141,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="mytypes.h" />
+    <ClInclude Include="my_opcode_x64.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
