@@ -56,12 +56,12 @@ extern "C"
         {
             x64_mov_rax_prefix;
             EMIT(0xF0) EMIT(0x46) EMIT(0xED) EMIT(0xEF) EMIT(0xFC) EMIT(0x7F) EMIT(0) EMIT(0); // Set RAX to LdrLoadDll
-            x64_mov_rcx_prefix;
-            EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0); // Set First Param to NULL
-            x64_mov_rdx_prefix;
-            EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0) EMIT(0); // Set Sec Param to NULL
 
-            x64_xor_rbx_rbx; // Set RBX to zero
+            x64_xor_rcx_rcx; // Set First Param to NULL
+
+            x64_xor_rdx_rdx; // Set Sec Param to NULL
+
+            x64_xor_rbx_rbx; // Clear RBX
 
             lea ebx, [krnlbaseDllName];
             x64_mov_r8_rbx; // Set Third Param to &krnlbaseDllName
