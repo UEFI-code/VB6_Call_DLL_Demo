@@ -52,7 +52,7 @@ extern "C"
             mov [esp + 4], 023h;
             retf
                 x86BackPosition :
-            add esp, 8 // manully pop 8 bytes to restore stack
+            add esp, 8 // manully pop 8 bytes to restore stack height
             // 233, below is C code
         }
         MessageBox(NULL, L"Backed to x86", L"233", SW_NORMAL);
@@ -76,13 +76,13 @@ extern "C"
             // lea ebx, [krnlbaseDllName]; Unfortunatly, this opcode is not same in x64
             mov ebx, [esp]; // ebx = &krnlbaseDllName
             x64_mov_r8_rbx; // Set 3rd Param to &krnlbaseDllName
-            add esp, 4; // manully pop 4 bytes, cause x64 Not have pop ebx
+            add esp, 4; // manully pop 4 bytes, because x64 Not have pop ebx
 
             // lea ebx, [KrnlBase_BaseAddr]; Unfortunatly, this opcode is not same in x64
             mov ebx, [esp]; // ebx = &KrnlBase_BaseAddr
             x64_mov_r9_rbx; // Set 4th Param to &KrnlBase_BaseAddr
             
-            sub esp, 12; // restore stack
+            sub esp, 12; // restore stack height
 
             x64_call_rax;
             
