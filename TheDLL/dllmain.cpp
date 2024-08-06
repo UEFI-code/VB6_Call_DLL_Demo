@@ -31,7 +31,7 @@ extern "C"
     {
         __asm
         {
-            // Backup Useful Pointer
+            // Backup Useful Pointer, for below x64 function use
             lea eax, [krnlbaseDllName];
             push eax;
             lea eax, [KrnlBase_BaseAddr];
@@ -52,6 +52,7 @@ extern "C"
             mov [esp + 4], 023h;
             retf
                 x86BackPosition :
+            add esp, 8 // manully pop 8 bytes to restore stack
             // 233, below is C code
         }
         MessageBox(NULL, L"Backed to x86", L"233", SW_NORMAL);
