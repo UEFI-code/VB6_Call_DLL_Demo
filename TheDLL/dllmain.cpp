@@ -5,11 +5,11 @@
 
 #include "my_opcode_x64.h"
 
-UNICODE_STRING krnlbaseDllName = {28, 30, (wchar_t *)L"kernelbase.dll"};
-UNICODE_STRING krnl32DllName = { 24, 26, (wchar_t*)L"kernel32.dll" };
+UNICODE_STRING64 krnlbaseDllName = {28, 30, 0, (UINT64)L"kernelbase.dll"};
+UNICODE_STRING64 krnl32DllName = { 24, 26, 0, (UINT64)L"kernel32.dll" };
 
-PVOID KrnlBase_BaseAddr = 0;
-PVOID Krnl32_BaseAddr = 0;
+UINT64 KrnlBase_BaseAddr = 0;
+UINT64 Krnl32_BaseAddr = 0;
 
 void cppFunc(void)
 {
@@ -31,6 +31,13 @@ extern "C"
     {
         __asm
         {
+            // Backup Useful Pointer
+            lea eax, [krnlbaseDllName];
+            push eax;
+            lea eax, [KrnlBase_BaseAddr];
+            push eax;
+
+            // Now prepare enter x64!
             push 033h;
             push x64code;
             retf
@@ -63,11 +70,18 @@ extern "C"
 
             x64_xor_rbx_rbx; // Clear RBX
 
-            lea ebx, [krnlbaseDllName];
+            add esp, 8; // manully pop 8 bytes to skip the return addr for below purpose
+
+            // lea ebx, [krnlbaseDllName]; Unfortunatly, this opcode is not same in x64
+            mov ebx, [esp]; // ebx = KrnlBase_BaseAddr
+            x64_mov_r9_rbx; // Set Forth Param to &KrnlBase_BaseAddr
+            add esp, 4; // manully pop 4 bytes, cause x64 Not have pop ebx
+            
+            // lea ebx, [KrnlBase_BaseAddr]; Unfortunatly, this opcode is not same in x64
+            mov ebx, [esp]; // ebx = krnlbaseDllName
             x64_mov_r8_rbx; // Set Third Param to &krnlbaseDllName
 
-            lea ebx, [Krnl32_BaseAddr];
-            x64_mov_r9_rbx; // Set Forth Param to &Krnl32_BaseAddr
+            sub esp, 12; // restore stack
 
             x64_call_rax;
             

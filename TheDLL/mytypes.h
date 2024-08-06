@@ -13,6 +13,13 @@ typedef struct _UNICODE_STRING {
 typedef UNICODE_STRING* PUNICODE_STRING;
 typedef const UNICODE_STRING* PCUNICODE_STRING;
 
+typedef struct _UNICODE_STRING64 {
+	USHORT Length;
+	USHORT MaximumLength;
+	UINT32 gap;
+	UINT64 Buffer;
+} UNICODE_STRING64;
+
 typedef LONG NTSTATUS;
 
 // ntoskrnl.exe Function Types Definations
