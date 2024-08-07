@@ -11,6 +11,6 @@ Screnshot:
 
 ## Current Achievements
 
-[*] VB6 Load 32bit native DLL
-[*] The DLL then run x64 code
-[*] Then Load x64 DLL!
+- VB6 Load 32bit native DLL
+- The DLL then run x64 code
+- Then Load x64 DLL!
