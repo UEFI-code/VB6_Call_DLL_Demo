@@ -24,6 +24,8 @@ extern "C"
     __declspec(dllexport) void Load_x64_Sys_Dll_Stage1(UNICODE_STRING64* DllName, UINT64* BaseAddr);
     void Load_x64_Sys_Dll_Stage2(void);
 
+    __declspec(dllexport) void x86_Call_x64_Func(UINT64 Addr, UINT64 parma1, UINT64 param2, UINT64 parma3, UINT64 param4);
+
     __declspec(dllexport) void hello(void)
     {
         MessageBox(NULL, L"Hello World from TheDLL C Function", L"Hi", SW_NORMAL);
@@ -33,12 +35,13 @@ extern "C"
     __declspec(dllexport) void runx64(void)
     {
         char msg[128] = { 0 };
-        Load_x64_Sys_Dll_Stage1(&krnlbaseDllName, &KrnlBase_BaseAddr);
+        Load_x64_Sys_Dll_Stage1(&krnlbaseDllName, &KrnlBase_BaseAddr); // Try Way 1
         sprintf_s(msg, "Successfully Load x64 kernelbase.dll -> 0x%llX", KrnlBase_BaseAddr);
-        MessageBoxA(NULL, msg, "Notice", SW_NORMAL);
-        Load_x64_Sys_Dll_Stage1(&krnl32DllName, &Krnl32_BaseAddr);
+        MessageBoxA(NULL, msg, "Notice Way 1", SW_NORMAL);
+
+        x86_Call_x64_Func(0x7FFCEFED46F0, 0, 0, (UINT64)&krnl32DllName, (UINT64)&Krnl32_BaseAddr); // Try Way 2
         sprintf_s(msg, "Successfully Load x64 kernel32.dll -> 0x%llX", Krnl32_BaseAddr);
-        MessageBoxA(NULL, msg, "Notice", SW_NORMAL);
+        MessageBoxA(NULL, msg, "Notice Way 2", SW_NORMAL);
     }
 
     __declspec(dllexport) __declspec(naked) void Load_x64_Sys_Dll_Stage1(UNICODE_STRING64* DllName, UINT64* BaseAddr)
@@ -102,7 +105,45 @@ extern "C"
             nop;
             ret;
         }
+    }
 
+    __declspec(dllexport) __declspec(naked) void x86_Call_x64_Func(UINT64 Addr, UINT64 parma1, UINT64 param2, UINT64 parma3, UINT64 param4)
+    {
+        __asm
+        {
+            // Now prepare enter x64!
+            push 033h;
+            push x64code;
+            retf
+                x64code :
+            nop;
+            nop;
+            add esp, 4; // skip return addr
+            x64_mov_rax__esp_; // RAX for call addr
+            add esp, 8;
+            x64_mov_rcx__esp_;
+            add esp, 8;
+            x64_mov_rdx__esp_;
+            add esp, 8;
+            x64_mov_r8__esp_;
+            add esp, 8;
+            x64_mov_r9__esp_;
+            sub esp, 32+4; // restore stack height
+
+            sub esp, 16; // give 16 bytes stack gap
+            x64_call_rax;
+            add esp, 16; // free the gap space
+
+            //Now Back to x86 Mode;
+            push x86BackPosition; // Here will push 8 bytes
+            mov[esp + 4], 023h;
+            retf
+                x86BackPosition:
+            nop;
+            nop;
+            nop;
+            ret;
+        }
     }
 }
 

@@ -14,3 +14,4 @@ Screnshot:
 - VB6 Load 32bit native DLL
 - The DLL then run x64 code
 - Then Load x64 DLL!
+- Also Can Call x64 DLL Function
