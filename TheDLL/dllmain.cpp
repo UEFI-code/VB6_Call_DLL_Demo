@@ -5,6 +5,8 @@
 
 #include "my_opcode_x64.h"
 
+#include <stdio.h>
+
 UNICODE_STRING64 krnlbaseDllName = {28, 30, 0, (UINT64)L"kernelbase.dll"};
 UNICODE_STRING64 krnl32DllName = { 24, 26, 0, (UINT64)L"kernel32.dll" };
 
@@ -19,24 +21,27 @@ void cppFunc(void)
 extern "C"
 
 {
+    __declspec(dllexport) void Load_x64_Sys_Dll_Stage1(UNICODE_STRING64* DllName, UINT64* BaseAddr);
+    void Load_x64_Sys_Dll_Stage2(void);
+
     __declspec(dllexport) void hello(void)
     {
         MessageBox(NULL, L"Hello World from TheDLL C Function", L"Hi", SW_NORMAL);
         cppFunc();
     }
 
-    void Load_x64_Sys_Dll(void);
-
     __declspec(dllexport) void runx64(void)
+    {
+        Load_x64_Sys_Dll_Stage1(&krnlbaseDllName, &KrnlBase_BaseAddr);
+        char msg[128] = { 0 };
+        sprintf_s(msg, "Successfully Load x64 kernelbase.dll -> 0x%llX", KrnlBase_BaseAddr);
+        MessageBoxA(NULL, msg, "Notice", SW_NORMAL);
+    }
+
+    __declspec(dllexport) __declspec(naked) void Load_x64_Sys_Dll_Stage1(UNICODE_STRING64* DllName, UINT64* BaseAddr)
     {
         __asm
         {
-            // Backup Useful Pointer, for below x64 function use
-            lea eax, [KrnlBase_BaseAddr];
-            push eax;
-            lea eax, [krnlbaseDllName];
-            push eax;
-
             // Now prepare enter x64!
             push 033h;
             push x64code;
@@ -44,7 +49,7 @@ extern "C"
                 x64code :
             nop;
             nop;
-            call Load_x64_Sys_Dll;
+            call Load_x64_Sys_Dll_Stage2;
             nop;
             nop;
             //Now Back to x86 Mode;
@@ -52,13 +57,13 @@ extern "C"
             mov [esp + 4], 023h;
             retf
                 x86BackPosition :
-            add esp, 8 // manully pop 8 bytes to restore stack height
             // 233, below is C code
         }
         MessageBox(NULL, L"Backed to x86", L"233", SW_NORMAL);
+        _asm ret;
     }
 
-    __declspec(naked) void Load_x64_Sys_Dll(void)
+    __declspec(naked) void Load_x64_Sys_Dll_Stage2(void)
     {
         __asm
         {
@@ -69,22 +74,25 @@ extern "C"
 
             x64_xor_rdx_rdx; // Set 2st Param to NULL
 
-            add esp, 8; // manully pop 8 bytes to skip the return addr for below purpose
+            add esp, 8+4; // manully dive 8+4 bytes to skip the ret addr for below purpose
 
             x64_xor_rbx_rbx; // Clear RBX
 
             // lea ebx, [krnlbaseDllName]; Unfortunatly, this opcode is not same in x64
             mov ebx, [esp]; // ebx = &krnlbaseDllName
             x64_mov_r8_rbx; // Set 3rd Param to &krnlbaseDllName
-            add esp, 4; // manully pop 4 bytes, because x64 Not have pop ebx
+
+            add esp, 4; // manully dive 4 bytes, because x64 Not have pop ebx
 
             // lea ebx, [KrnlBase_BaseAddr]; Unfortunatly, this opcode is not same in x64
             mov ebx, [esp]; // ebx = &KrnlBase_BaseAddr
             x64_mov_r9_rbx; // Set 4th Param to &KrnlBase_BaseAddr
             
-            sub esp, 12; // restore stack height
+            sub esp, 4+4+8; // restore stack height
 
+            sub esp, 16; // give ntdll func 16 bytes stack gap
             x64_call_rax;
+            add esp, 16; // free the gap space
             
             nop;
             nop;
