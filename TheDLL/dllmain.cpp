@@ -32,9 +32,12 @@ extern "C"
 
     __declspec(dllexport) void runx64(void)
     {
-        Load_x64_Sys_Dll_Stage1(&krnlbaseDllName, &KrnlBase_BaseAddr);
         char msg[128] = { 0 };
+        Load_x64_Sys_Dll_Stage1(&krnlbaseDllName, &KrnlBase_BaseAddr);
         sprintf_s(msg, "Successfully Load x64 kernelbase.dll -> 0x%llX", KrnlBase_BaseAddr);
+        MessageBoxA(NULL, msg, "Notice", SW_NORMAL);
+        Load_x64_Sys_Dll_Stage1(&krnl32DllName, &Krnl32_BaseAddr);
+        sprintf_s(msg, "Successfully Load x64 kernel32.dll -> 0x%llX", Krnl32_BaseAddr);
         MessageBoxA(NULL, msg, "Notice", SW_NORMAL);
     }
 
@@ -74,7 +77,7 @@ extern "C"
 
             x64_xor_rdx_rdx; // Set 2st Param to NULL
 
-            add esp, 8+4; // manully dive 8+4 bytes to skip the ret addr for below purpose
+            add esp, 8+4; // manully dive 8+4 bytes to skip the ret addrs for below purpose
 
             x64_xor_rbx_rbx; // Clear RBX
 
