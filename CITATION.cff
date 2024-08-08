@@ -1,0 +1,12 @@
+cff-version: 1.0.0
+message: If you use this software, please cite it as below.
+title: VB6_CALL_DLL_DEMO
+authors:
+  - family-names: VB6_CALL_DLL_DEMO Team
+url: https://github.com/UEFI-code/VB6_CALL_DLL_DEMO
+preferred-citation:
+  type: opensource-software-toolkit
+  title: "VB6_CALL_DLL_DEMO: An open-source project for showing how to call x64 DLL from VB6"
+  authors:
+    - family-names: Zhang
+      given-names: Shizhuo
