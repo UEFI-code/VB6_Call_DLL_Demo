@@ -9,9 +9,14 @@
 
 UNICODE_STRING64 krnlbaseDllName = {28, 30, 0, (UINT64)L"kernelbase.dll"};
 UNICODE_STRING64 krnl32DllName = { 24, 26, 0, (UINT64)L"kernel32.dll" };
+//UNICODE_STRING64 usr32DllName = { 20, 22, 0, (UINT64)L"user32.dll" }; //Sadly, this will crash x86 runtime
 
 UINT64 KrnlBase_BaseAddr = 0;
 UINT64 Krnl32_BaseAddr = 0;
+//UINT64 Usr32_BaseAddr = 0; //Sadly, this will crash x86 runtime
+
+//ANSI_STRING64 MessageBoxA_Name = { 11, 12, 0, (UINT64)"MessageBoxA" };
+//UINT64 x64MessageBoxA_Addr = 0;
 
 void cppFunc(void)
 {
@@ -39,9 +44,15 @@ extern "C"
         sprintf_s(msg, "Successfully Load x64 kernelbase.dll -> 0x%llX", KrnlBase_BaseAddr);
         MessageBoxA(NULL, msg, "Notice Way 1", SW_NORMAL);
 
-        x86_Call_x64_Func(0x7FFCEFED46F0, 0, 0, (UINT64)&krnl32DllName, (UINT64)&Krnl32_BaseAddr); // Try Way 2
+        x86_Call_x64_Func(LdrLoadDll_FuncAddr, 0, 0, (UINT64)&krnl32DllName, (UINT64)&Krnl32_BaseAddr); // Try Way 2
         sprintf_s(msg, "Successfully Load x64 kernel32.dll -> 0x%llX", Krnl32_BaseAddr);
         MessageBoxA(NULL, msg, "Notice Way 2", SW_NORMAL);
+
+        //x86_Call_x64_Func(LdrLoadDll_FuncAddr, 0, 0, (UINT64)&usr32DllName, (UINT64)&Usr32_BaseAddr); // Try Way 3
+        //x86_Call_x64_Func(LdrGetProcedureAddress_FuncAddr, Usr32_BaseAddr, (UINT64)&MessageBoxA_Name, 0, (UINT64)&x64MessageBoxA_Addr);
+        //sprintf_s(msg, "Successfully Load x64 user32.dll -> 0x%llX, x64 MessageBoxA -> 0x%llX", Usr32_BaseAddr, x64MessageBoxA_Addr);
+        //x86_Call_x64_Func(x64MessageBoxA_Addr, NULL, (UINT64)msg, (UINT64)"Notice Way 3 - x64MessageBoxA", SW_NORMAL);
+        //x86_Call_x64_Func(LdrUnloadDll_FuncAddr, Usr32_BaseAddr, 0, 0, 0);
     }
 
     __declspec(dllexport) __declspec(naked) void Load_x64_Sys_Dll_Stage1(UNICODE_STRING64* DllName, UINT64* BaseAddr)

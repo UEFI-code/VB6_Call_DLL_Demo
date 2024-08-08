@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|solutionrelative:dllmain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\my_opcode_x64.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|solutionrelative:my_opcode_x64.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\mytypes.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|solutionrelative:mytypes.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\my_opcode_x64.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|solutionrelative:my_opcode_x64.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8AF711EA-E4B3-4542-9B0F-2E7B4D9C946A}|TheDLL.vcxproj|C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\pch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -34,11 +34,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "dllmain.cpp",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
+              "RelativeDocumentMoniker": "dllmain.cpp",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
+              "RelativeToolTip": "dllmain.cpp",
+              "ViewState": "AQIAAB8AAAAgAAAAAAAlwBoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-08-08T00:44:02.993Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "my_opcode_x64.h",
               "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\my_opcode_x64.h",
               "RelativeDocumentMoniker": "my_opcode_x64.h",
@@ -51,28 +64,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "mytypes.h",
               "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\mytypes.h",
               "RelativeDocumentMoniker": "mytypes.h",
               "ToolTip": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\mytypes.h",
               "RelativeToolTip": "mytypes.h",
-              "ViewState": "AQIAAAMAAABAAAAAAIAowCEAAAAiAAAA",
+              "ViewState": "AQIAABsAAAAAwJmZmZmpvy4AAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-08-06T02:19:45.629Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "dllmain.cpp",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
-              "RelativeDocumentMoniker": "dllmain.cpp",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\VB6_Call_DLL_Demo\\TheDLL\\dllmain.cpp",
-              "RelativeToolTip": "dllmain.cpp",
-              "ViewState": "AQIAABQAAACAaWZmZuYgwCcAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-08-03T08:35:42.55Z",
               "EditorCaption": ""
             },
             {

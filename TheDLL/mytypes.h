@@ -20,6 +20,13 @@ typedef struct _UNICODE_STRING64 {
 	UINT64 Buffer;
 } UNICODE_STRING64;
 
+typedef struct _ANSI_STRING64 {
+	USHORT Length;
+	USHORT MaximumLength;
+	UINT32 gap;
+	UINT64 Buffer;
+} ANSI_STRING64;
+
 typedef LONG NTSTATUS;
 
 // ntoskrnl.exe Function Types Definations
@@ -28,7 +35,12 @@ extern DbgPrintType* DbgPrint;
 
 // NTDLL.dll Function Types Definations
 typedef NTSTATUS NtDisplayStringType(PUNICODE_STRING);
-extern NtDisplayStringType* NtDisplayString;
 
 typedef NTSTATUS LdrLoadDllType(ULONG Flags, PWSTR SearchPath, PUNICODE_STRING DllName, PVOID* BaseAddress);
-extern LdrLoadDllType* LdrLoadDll;
+#define LdrLoadDll_FuncAddr 0x7FFCEFED46F0
+
+typedef NTSTATUS LdrGetProcedureAddressType(PVOID BaseAddress, CHAR* Name, ULONG Flags, PVOID* ProcedureAddress);
+#define LdrGetProcedureAddress_FuncAddr 0x7FFCEFF25620
+
+typedef NTSTATUS LdrUnloadDllType(PVOID BaseAddress);
+#define LdrUnloadDll_FuncAddr 0x7FFCEFED2530

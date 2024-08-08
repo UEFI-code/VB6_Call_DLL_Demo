@@ -15,3 +15,7 @@ Screnshot:
 - The DLL then run x64 code
 - Then Load x64 DLL!
 - Also Can Call x64 DLL Function
+
+## Know Issues
+
+- load x64 version of USER32.DLL will crash
