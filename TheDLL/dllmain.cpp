@@ -9,14 +9,14 @@
 
 UNICODE_STRING64 krnlbaseDllName = {28, 30, 0, (UINT64)L"kernelbase.dll"};
 UNICODE_STRING64 krnl32DllName = { 24, 26, 0, (UINT64)L"kernel32.dll" };
-//UNICODE_STRING64 usr32DllName = { 20, 22, 0, (UINT64)L"user32.dll" }; //Sadly, this will crash x86 runtime
+UNICODE_STRING64 usr32DllName = { 20, 22, 0, (UINT64)L"user32.dll" }; //Sadly, this will crash x86 runtime
 
 UINT64 KrnlBase_BaseAddr = 0;
 UINT64 Krnl32_BaseAddr = 0;
-//UINT64 Usr32_BaseAddr = 0; //Sadly, this will crash x86 runtime
+UINT64 Usr32_BaseAddr = 0; //Sadly, this will crash x86 runtime
 
-//ANSI_STRING64 MessageBoxA_Name = { 11, 12, 0, (UINT64)"MessageBoxA" };
-//UINT64 x64MessageBoxA_Addr = 0;
+ANSI_STRING64 MessageBoxA_Name = { 11, 12, 0, (UINT64)"MessageBoxA" };
+UINT64 x64MessageBoxA_Addr = 0;
 
 void cppFunc(void)
 {
@@ -51,6 +51,7 @@ extern "C"
         //x86_Call_x64_Func(LdrLoadDll_FuncAddr, 0, 0, (UINT64)&usr32DllName, (UINT64)&Usr32_BaseAddr); // Try Way 3
         //x86_Call_x64_Func(LdrGetProcedureAddress_FuncAddr, Usr32_BaseAddr, (UINT64)&MessageBoxA_Name, 0, (UINT64)&x64MessageBoxA_Addr);
         //sprintf_s(msg, "Successfully Load x64 user32.dll -> 0x%llX, x64 MessageBoxA -> 0x%llX", Usr32_BaseAddr, x64MessageBoxA_Addr);
+        //MessageBoxA(NULL, msg, "Notice Way 3", SW_NORMAL);
         //x86_Call_x64_Func(x64MessageBoxA_Addr, NULL, (UINT64)msg, (UINT64)"Notice Way 3 - x64MessageBoxA", SW_NORMAL);
         //x86_Call_x64_Func(LdrUnloadDll_FuncAddr, Usr32_BaseAddr, 0, 0, 0);
     }
@@ -85,7 +86,7 @@ extern "C"
         __asm
         {
             x64_mov_rax_prefix;
-            EMIT(0xF0) EMIT(0x46) EMIT(0xED) EMIT(0xEF) EMIT(0xFC) EMIT(0x7F) EMIT(0) EMIT(0); // Set RAX to LdrLoadDll
+            EMIT(0xE0) EMIT(0x46) EMIT(0xC5) EMIT(0x1B) EMIT(0xFC) EMIT(0x7F) EMIT(0) EMIT(0); // Set RAX to LdrLoadDll
 
             x64_xor_rcx_rcx; // Set 1st Param to NULL
 
@@ -107,9 +108,12 @@ extern "C"
             
             sub esp, 4+4+8; // restore stack height
 
+            push ebp; // Backup RBP
+            x64_mov_rbp_rsp;
             sub esp, 16; // give ntdll func 16 bytes stack gap
             x64_call_rax;
             add esp, 16; // free the gap space
+            pop ebp
             
             nop;
             nop;
@@ -140,10 +144,12 @@ extern "C"
             add esp, 8;
             x64_mov_r9__esp_;
             sub esp, 32+4; // restore stack height
-
+            push ebp;
+            x64_mov_rbp_rsp;
             sub esp, 16; // give 16 bytes stack gap
             x64_call_rax;
             add esp, 16; // free the gap space
+            pop ebp;
 
             //Now Back to x86 Mode;
             push x86BackPosition; // Here will push 8 bytes

@@ -37,7 +37,7 @@ extern DbgPrintType* DbgPrint;
 typedef NTSTATUS NtDisplayStringType(PUNICODE_STRING);
 
 typedef NTSTATUS LdrLoadDllType(ULONG Flags, PWSTR SearchPath, PUNICODE_STRING DllName, PVOID* BaseAddress);
-#define LdrLoadDll_FuncAddr 0x7FFCEFED46F0
+#define LdrLoadDll_FuncAddr 0x7FFC1BC546E0
 
 typedef NTSTATUS LdrGetProcedureAddressType(PVOID BaseAddress, CHAR* Name, ULONG Flags, PVOID* ProcedureAddress);
 #define LdrGetProcedureAddress_FuncAddr 0x7FFCEFF25620
